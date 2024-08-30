@@ -16,6 +16,12 @@
         android:theme="@style/Theme.RumTasting"
         tools:targetApi="31">
         <activity
+            android:name=".activities.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ProfileUpdateActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity

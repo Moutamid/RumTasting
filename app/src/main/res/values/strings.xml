@@ -2,4 +2,6 @@
     <string name="app_name">Rum Tasting</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloremque error harum in quos tenetur.</string>
+    <string name="lorem2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore error eum fuga ipsa itaque magni modi ratione reprehenderit velit voluptates? Assumenda dolorum ea est facilis harum nostrum pariatur voluptas! Ab accusamus aliquid aspernatur, at aut beatae consectetur consequuntur debitis deserunt dignissimos distinctio ducimus eos, explicabo, facilis fugiat illum incidunt inventore ipsum iste minus modi molestiae mollitia nobis nulla numquam odit perspiciatis praesentium quae quam quia rem repellendus rerum sapiente temporibus velit voluptate voluptatibus. Dolor dolorem itaque natus voluptas! Accusamus adipisci amet assumenda beatae, eligendi et exercitationem impedit modi molestias nam, nemo nostrum odit optio quaerat quas sit tempore unde voluptatum!</string>
 </resources>

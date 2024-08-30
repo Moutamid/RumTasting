@@ -9,8 +9,11 @@ activity = "1.9.1"
 glide = "4.16.0"
 constraintlayout = "2.1.4"
 stash = "1c45b0e5d5"
+library = "1.4.0"
+imagepicker = "v2.1"
 
 [libraries]
+imagepicker = { module = "com.github.Dhaval2404:ImagePicker", version.ref = "imagepicker" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -21,6 +24,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 stash = { module = "com.github.akshay2211:Stash", version.ref = "stash" }
+library = { module = "me.zhanghai.android.materialratingbar:library", version.ref = "library" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

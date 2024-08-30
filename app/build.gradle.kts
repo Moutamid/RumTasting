@@ -37,6 +37,8 @@ dependencies {
     implementation(libs.stash)
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+    implementation(libs.library)
+    implementation(libs.imagepicker)
 
     //noinspection UseTomlInstead
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
