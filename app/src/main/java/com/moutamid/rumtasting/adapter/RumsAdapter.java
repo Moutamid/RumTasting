@@ -51,6 +51,12 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
         holder.description.setText(model.description);
         Glide.with(context).load(model.image).placeholder(R.color.background).into(holder.profile);
 
+        if (model.rating != null) {
+            double rate = model.rating.star1 + model.rating.star2 + model.rating.star3 + model.rating.star4 + model.rating.star5;
+            rate = rate / 5;
+            holder.rating.setText(String.format("%.2f", rate));
+        }
+
         ArrayList<RumModel> favorite = Stash.getArrayList(Constants.FAVORITES, RumModel.class);
         boolean check = favorite.stream().anyMatch(favoriteModel -> Objects.equals(favoriteModel.id, model.id));
 
