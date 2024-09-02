@@ -8,11 +8,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.moutamid.rumtasting.Constants;
@@ -20,6 +16,10 @@ import com.moutamid.rumtasting.R;
 import com.moutamid.rumtasting.databinding.ActivityDetailBinding;
 import com.moutamid.rumtasting.models.RatingModel;
 import com.moutamid.rumtasting.models.RumModel;
+import com.moutamid.rumtasting.models.UserModel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -42,8 +42,8 @@ public class DetailActivity extends AppCompatActivity {
                 .get().addOnFailureListener(e -> {
                     Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }).addOnSuccessListener(dataSnapshot -> {
-                   rumModel = dataSnapshot.getValue(RumModel.class);
-                   updateView();
+                    rumModel = dataSnapshot.getValue(RumModel.class);
+                    updateView();
                 });
 
         binding.rate.setOnClickListener(v -> {
@@ -58,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.rum_rider);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.show();
 
         Button submit = dialog.findViewById(R.id.submit);
@@ -67,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
         submit.setOnClickListener(v -> {
             RatingModel ratingModel = new RatingModel();
             if (rumModel.rating == null) {
-                rumModel.rating = new RatingModel(0,0,0,0,0);
+                rumModel.rating = new RatingModel(0, 0, 0, 0, 0);
             }
             if (ratingBar.getRating() == 5) {
                 ratingModel.star5 = rumModel.rating.star5 + ratingBar.getRating();
@@ -90,9 +90,22 @@ public class DetailActivity extends AppCompatActivity {
         Constants.showDialog();
         Constants.databaseReference().child(Constants.RUMS).child(rumModel.id).setValue(rumModel)
                 .addOnSuccessListener(unused -> {
-                    Constants.dismissDialog();
-                    Toast.makeText(this, "Thanks for your rating", Toast.LENGTH_SHORT).show();
-                    updateRating();
+                    Constants.databaseReference().child(Constants.USER).child(Constants.auth().getCurrentUser().getUid())
+                            .get().addOnFailureListener(e -> {
+                                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }).addOnSuccessListener(dataSnapshot -> {
+                                UserModel userModel = dataSnapshot.getValue(UserModel.class);
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("totalRated", (userModel.totalRated + 1));
+                                Constants.databaseReference().child(Constants.USER).child(Constants.auth().getCurrentUser().getUid()).updateChildren(map)
+                                        .addOnSuccessListener(unused1 -> {
+                                            Constants.dismissDialog();
+                                            Toast.makeText(this, "Thanks for your rating", Toast.LENGTH_SHORT).show();
+                                            updateRating();
+                                        }).addOnFailureListener(e -> {
+                                            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            });
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
                     Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

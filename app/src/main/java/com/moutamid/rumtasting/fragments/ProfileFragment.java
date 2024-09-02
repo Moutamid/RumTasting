@@ -1,14 +1,15 @@
 package com.moutamid.rumtasting.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -48,8 +49,14 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(requireContext(), ProfileUpdateActivity.class));
         });
 
+        binding.privacy.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")));
+        });
+
         return binding.getRoot();
     }
+
+    private static final String TAG = "ProfileFragment";
 
     @Override
     public void onResume() {
@@ -59,9 +66,13 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(requireContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }).addOnSuccessListener(dataSnapshot -> {
                     UserModel userModel = dataSnapshot.getValue(UserModel.class);
-                    binding.name.setText(userModel.name);
-                    binding.email.setText(userModel.email);
-                    Glide.with(requireContext()).load(userModel.image).placeholder(R.drawable.profile_icon).into(binding.profile);
+                    if (userModel != null) {
+                        Log.d(TAG, "totalRated: " + userModel.totalRated);
+                        binding.name.setText(userModel.name);
+                        binding.email.setText(userModel.email);
+                        binding.totalRum.setText(String.format("%,d", userModel.totalRated));
+                        Glide.with(requireContext()).load(userModel.image).placeholder(R.drawable.profile_icon).into(binding.profile);
+                    }
                 });
     }
 }
