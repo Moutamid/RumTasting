@@ -141,7 +141,7 @@
         android:gravity="start|center"
         android:text="Logout"
         android:textColor="@color/white"
-        app:backgroundTint="@color/pink"
+        app:backgroundTint="@color/red"
         app:cornerRadius="12dp" />
 
 </LinearLayout>

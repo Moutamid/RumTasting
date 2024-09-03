@@ -20,7 +20,6 @@
         android:background="@color/background"
         app:menu="@menu/bottom_nav"
         app:itemIconTint="@color/selected_color"
-        app:itemTextColor="@color/selected_color"
         android:id="@+id/bottomNav" />
 
 </RelativeLayout>

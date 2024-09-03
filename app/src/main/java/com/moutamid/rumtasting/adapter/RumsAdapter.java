@@ -61,7 +61,7 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
         boolean check = favorite.stream().anyMatch(favoriteModel -> Objects.equals(favoriteModel.id, model.id));
 
         if (check) {
-            holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.orange)));
+            holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.red)));
         } else {
             holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.white)));
         }
@@ -75,7 +75,7 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
             boolean cc = favor.stream().anyMatch(favoriteModel -> Objects.equals(favoriteModel.id, model.id));
             if (!cc) {
                 favor.add(model);
-                holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.orange)));
+                holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.red)));
                 Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
             } else {
                 int index = favor.stream()

@@ -2,10 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="trans">#00FFFFFF</color>
     <color name="grey">#CDCDCD</color>
     <color name="orange">#FE5F49</color>
     <color name="pink">#F9415E</color>
+    <color name="red">#D31E0E</color>
 <!--    <color name="background">#434343</color>-->
-    <color name="background">#4E4E4C</color>
-    <color name="foreground">#7A7A7A</color>
+<!--    <color name="background">#4E4E4C</color>-->
+    <color name="background">#303030</color>
+<!--    <color name="foreground">#7A7A7A</color>-->
+    <color name="foreground">#4E4E4E</color>
 </resources>
