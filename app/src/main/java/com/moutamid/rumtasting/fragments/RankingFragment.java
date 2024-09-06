@@ -70,9 +70,19 @@ public class RankingFragment extends Fragment {
                             if (rum1.rating == null) return 1;
                             if (rum2.rating == null) return -1;
 
-                            double rating1 = (rum1.rating.star1 + rum1.rating.star2 + rum1.rating.star3 + rum1.rating.star4 + rum1.rating.star5) / 5.0;
-                            double rating2 = (rum2.rating.star1 + rum2.rating.star2 + rum2.rating.star3 + rum2.rating.star4 + rum2.rating.star5) / 5.0;
-                            return Double.compare(rating2, rating1);
+                            float star1 = 0;
+                            for (Float rate : rum1.rating) {
+                                star1 += rate;
+                            }
+                            star1 = star1 / rum1.rating.size();
+
+                            float star2 = 0;
+                            for (Float rate : rum2.rating) {
+                                star2 += rate;
+                            }
+                            star2 = star2 / rum2.rating.size();
+
+                            return Double.compare(star2, star1);
                         });
                     } else {
                         Toast.makeText(requireActivity(), "No Data Found", Toast.LENGTH_SHORT).show();

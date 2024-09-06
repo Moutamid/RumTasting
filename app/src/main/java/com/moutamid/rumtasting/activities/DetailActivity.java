@@ -22,6 +22,7 @@ import com.moutamid.rumtasting.models.RatingModel;
 import com.moutamid.rumtasting.models.RumModel;
 import com.moutamid.rumtasting.models.UserModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,22 +75,10 @@ public class DetailActivity extends AppCompatActivity {
         MaterialRatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
 
         submit.setOnClickListener(v -> {
-            RatingModel ratingModel = new RatingModel();
             if (rumModel.rating == null) {
-                rumModel.rating = new RatingModel(0, 0, 0, 0, 0);
+                rumModel.rating = new ArrayList<>();
             }
-            if (ratingBar.getRating() == 5) {
-                ratingModel.star5 = rumModel.rating.star5 + ratingBar.getRating();
-            } else if (ratingBar.getRating() >= 4) {
-                ratingModel.star4 = rumModel.rating.star4 + ratingBar.getRating();
-            } else if (ratingBar.getRating() >= 3) {
-                ratingModel.star3 = rumModel.rating.star3 + ratingBar.getRating();
-            } else if (ratingBar.getRating() >= 2) {
-                ratingModel.star2 = rumModel.rating.star2 + ratingBar.getRating();
-            } else {
-                ratingModel.star1 = rumModel.rating.star1 + ratingBar.getRating();
-            }
-            rumModel.rating = ratingModel;
+            rumModel.rating.add(ratingBar.getRating());
             dialog.dismiss();
             addRating();
         });
@@ -123,9 +112,12 @@ public class DetailActivity extends AppCompatActivity {
 
     private void updateRating() {
         if (rumModel.rating != null) {
-            double rate = rumModel.rating.star1 + rumModel.rating.star2 + rumModel.rating.star3 + rumModel.rating.star4 + rumModel.rating.star5;
-            rate = rate / 5;
-            binding.rating.setText(String.format("%.2f", rate));
+            double star = 0;
+            for (Float rate : rumModel.rating) {
+                star += rate;
+            }
+            star = star / rumModel.rating.size();
+            binding.rating.setText(String.format("%.2f", star));
         }
     }
 
@@ -133,6 +125,15 @@ public class DetailActivity extends AppCompatActivity {
         binding.name.setText(rumModel.name);
         binding.description.setText(rumModel.description);
         Glide.with(this).load(rumModel.image).placeholder(R.color.background).into(binding.profile);
+
+        if (rumModel.rating != null) {
+            double star = 0;
+            for (Float rate : rumModel.rating) {
+                star += rate;
+            }
+            star = star / rumModel.rating.size();
+            binding.rating.setText(String.format("%.2f", star));
+        }
 
         binding.profile.setOnClickListener(v ->  {
            previewImage();
