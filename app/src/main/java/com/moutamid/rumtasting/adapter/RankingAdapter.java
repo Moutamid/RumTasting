@@ -50,6 +50,8 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
             }
             star = star / model.rating.size();
             holder.rating.setText(String.format("%.2f", star));
+        } else {
+            holder.rating.setText(String.format("%.2f", 0.0));
         }
     }
 

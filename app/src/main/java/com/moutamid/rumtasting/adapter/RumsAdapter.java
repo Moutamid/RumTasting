@@ -58,6 +58,8 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
             }
             star = star / model.rating.size();
             holder.rating.setText(String.format("%.2f", star));
+        } else {
+            holder.rating.setText(String.format("%.2f", 0.0));
         }
 
         ArrayList<RumModel> favorite = Stash.getArrayList(Constants.FAVORITES, RumModel.class);
