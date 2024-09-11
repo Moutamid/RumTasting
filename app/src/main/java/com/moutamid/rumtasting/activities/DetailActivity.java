@@ -94,7 +94,9 @@ public class DetailActivity extends AppCompatActivity {
                             }).addOnSuccessListener(dataSnapshot -> {
                                 UserModel userModel = dataSnapshot.getValue(UserModel.class);
                                 Map<String, Object> map = new HashMap<>();
-                                map.put("totalRated", (userModel.totalRated + 1));
+                                if (userModel.ids == null) userModel.ids = new ArrayList<>();
+                                userModel.ids.add(rumModel.id);
+                                map.put("ids", userModel.ids);
                                 Constants.databaseReference().child(Constants.USER).child(Constants.auth().getCurrentUser().getUid()).updateChildren(map)
                                         .addOnSuccessListener(unused1 -> {
                                             Constants.dismissDialog();

@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implements Filterable {
+public class RatedAdapter extends RecyclerView.Adapter<RatedAdapter.RumsVH> implements Filterable {
     Context context;
     ArrayList<RumModel> list;
     ArrayList<RumModel> listAll;
 
-    public RumsAdapter(Context context, ArrayList<RumModel> list) {
+    public RatedAdapter(Context context, ArrayList<RumModel> list) {
         this.context = context;
         this.list = list;
         this.listAll = new ArrayList<>(list);
@@ -41,16 +41,13 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
     @NonNull
     @Override
     public RumsVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RumsVH(LayoutInflater.from(context).inflate(R.layout.rum_items, parent, false));
+        return new RumsVH(LayoutInflater.from(context).inflate(R.layout.rated_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RumsVH holder, int position) {
         RumModel model = list.get(holder.getAdapterPosition());
         holder.name.setText(model.name);
-        holder.description.setText(model.description);
-        Glide.with(context).load(model.image).placeholder(R.color.background).into(holder.profile);
-
         if (model.rating != null) {
             double star = 0;
             for (Float rate : model.rating) {
@@ -62,41 +59,8 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
             holder.rating.setText(String.format("%.2f", 0.0));
         }
 
-        ArrayList<RumModel> favorite = Stash.getArrayList(Constants.FAVORITES, RumModel.class);
-        boolean check = favorite.stream().anyMatch(favoriteModel -> Objects.equals(favoriteModel.id, model.id));
-
-        if (check) {
-            holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.red)));
-        } else {
-            holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.white)));
-        }
-
         holder.itemView.setOnClickListener(v -> {
             context.startActivity(new Intent(context, DetailActivity.class).putExtra(Constants.RUMS, model.id));
-        });
-
-        holder.favorite.setOnClickListener(v -> {
-            ArrayList<RumModel> favor = Stash.getArrayList(Constants.FAVORITES, RumModel.class);
-            boolean cc = favor.stream().anyMatch(favoriteModel -> Objects.equals(favoriteModel.id, model.id));
-            if (!cc) {
-                favor.add(model);
-                holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.red)));
-                Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
-            } else {
-                int index = favor.stream()
-                        .filter(favoriteModel -> Objects.equals(favoriteModel.id, model.id))
-                        .findFirst()
-                        .map(favor::indexOf)
-                        .orElse(-1);
-                if (index != -1) {
-                    favor.remove(index);
-                    Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
-                    list.remove(holder.getAdapterPosition());
-                    notifyItemRemoved(holder.getAdapterPosition());
-                }
-                holder.favoriteImage.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.white)));
-            }
-            Stash.put(Constants.FAVORITES, favor);
         });
     }
 
@@ -138,18 +102,11 @@ public class RumsAdapter extends RecyclerView.Adapter<RumsAdapter.RumsVH> implem
     };
 
     public static class RumsVH extends RecyclerView.ViewHolder {
-        TextView name, description, rating;
-        ImageView profile, favoriteImage;
-        MaterialCardView favorite;
-
+        TextView name, rating;
         public RumsVH(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            description = itemView.findViewById(R.id.description);
             rating = itemView.findViewById(R.id.rating);
-            profile = itemView.findViewById(R.id.profile);
-            favorite = itemView.findViewById(R.id.favorite);
-            favoriteImage = itemView.findViewById(R.id.favoriteImage);
         }
     }
 

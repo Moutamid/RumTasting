@@ -20,6 +20,8 @@ import com.moutamid.rumtasting.activities.SplashActivity;
 import com.moutamid.rumtasting.databinding.FragmentProfileBinding;
 import com.moutamid.rumtasting.models.UserModel;
 
+import java.util.ArrayList;
+
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
 
@@ -67,10 +69,10 @@ public class ProfileFragment extends Fragment {
                 }).addOnSuccessListener(dataSnapshot -> {
                     UserModel userModel = dataSnapshot.getValue(UserModel.class);
                     if (userModel != null) {
-                        Log.d(TAG, "totalRated: " + userModel.totalRated);
                         binding.name.setText(userModel.name);
                         binding.email.setText(userModel.email);
-                        binding.totalRum.setText(String.format("%,d", userModel.totalRated));
+                        if (userModel.ids == null) userModel.ids = new ArrayList<>();
+                        binding.totalRum.setText(String.format("%,d", userModel.ids.size()));
                         Glide.with(requireContext()).load(userModel.image).placeholder(R.drawable.profile_icon).into(binding.profile);
                     }
                 });

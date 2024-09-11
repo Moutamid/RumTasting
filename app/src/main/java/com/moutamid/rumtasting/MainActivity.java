@@ -13,6 +13,7 @@ import com.moutamid.rumtasting.fragments.FavoriteFragment;
 import com.moutamid.rumtasting.fragments.HomeFragment;
 import com.moutamid.rumtasting.fragments.ProfileFragment;
 import com.moutamid.rumtasting.fragments.RankingFragment;
+import com.moutamid.rumtasting.fragments.RatedFragment;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (id == R.id.ranking) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new RankingFragment()).commit();
+                }
+                if (id == R.id.rated) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new RatedFragment()).commit();
                 }
                 if (id == R.id.profile) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new ProfileFragment()).commit();
